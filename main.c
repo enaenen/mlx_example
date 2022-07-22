@@ -69,8 +69,8 @@ int main(void)
     ft_mlx_init(&mlx);
     printf("==============================\n");
     printf("W key : Add 1 to x.\n");
-    printf("S key : Add 1 to x.\n");
-    printf("ESC key : Add 1 to x.\n");
+    printf("S key : Minus 1 to x.\n");
+    printf("ESC key : EXIT.\n");
     printf("Other keys : print current.\n");
     printf("==============================\n");
     printf("Current x = 3\n");
