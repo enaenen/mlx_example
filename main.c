@@ -27,14 +27,14 @@ typedef struct s_param {
 
 typedef struct s_img{
     void    *img;
-    int     *img_width;
-    int     *img_height;
+    int    	img_width;
+    int     img_height;
 }           t_img;
 
 typedef struct s_mlx{
     void    *mlx;
     void    *win;
-    t_img   *img;
+    t_img   img;
 }              t_mlx;
 
 void    param_init(t_param *param)
@@ -50,7 +50,6 @@ void    ft_mlx_init(t_mlx *_mlx)
 {
     _mlx->mlx = mlx_init();
     _mlx->win = mlx_new_window(_mlx->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
-    _mlx->img = malloc(sizeof(t_img));
 }
 
 int     key_press(int keycode, t_param *param)
@@ -69,7 +68,9 @@ int     key_press(int keycode, t_param *param)
 
 void    ft_mlx_img_add(t_mlx *mlx)
 {
-    mlx->img->img = mlx_xpm_file_to_image(mlx->mlx, "../textures/wall_e.xpm", mlx->img->img_width, mlx->img->img_height);
+	int	img_width;
+	int	img_height;
+    mlx->img.img = mlx_xpm_file_to_image(mlx->mlx, "textures/wall_n.xpm", &mlx->img.img_width, &mlx->img.img_height);
 }
 
 int main(void)
@@ -88,6 +89,6 @@ int main(void)
     printf("==============================\n");
     printf("Current x = 3\n");
     mlx_hook(mlx.win, X_EVENT_KEY_PRESS, 0, &key_press, &param);
-    mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img->img, 50, 50);
+    mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 50, 50);
     mlx_loop(mlx.mlx);
 }
