@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   03_img_textured_raycast_macos.c                    :+:      :+:    :+:   */
+/*   03_img_textured_raycast.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yohlee <yohlee@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: wchae <wchae@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 15:18:03 by yohlee            #+#    #+#             */
-/*   Updated: 2020/07/21 08:10:51 by yohlee           ###   ########.fr       */
+/*   Updated: 2022/07/24 20:33:13 by wchae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,13 +285,13 @@ void	load_texture(t_info *info)
 {
 	t_img	img;
 
-	load_image(info, info->texture[0], "textures/eagle.xpm", &img);
-	load_image(info, info->texture[1], "textures/redbrick.xpm", &img);
-	load_image(info, info->texture[2], "textures/purplestone.xpm", &img);
+	load_image(info, info->texture[0], "textures/diamond_block.xpm", &img);
+	load_image(info, info->texture[1], "textures/stone_bricks.xpm", &img);
+	load_image(info, info->texture[2], "textures/gold_block.xpm", &img);
 	load_image(info, info->texture[3], "textures/greystone.xpm", &img);
 	load_image(info, info->texture[4], "textures/bluestone.xpm", &img);
 	load_image(info, info->texture[5], "textures/mossy.xpm", &img);
-	load_image(info, info->texture[6], "textures/wood.xpm", &img);
+	load_image(info, info->texture[6], "textures/stone.xpm", &img);
 	load_image(info, info->texture[7], "textures/colorstone.xpm", &img);
 }
 
