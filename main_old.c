@@ -30,21 +30,25 @@ typedef struct s_param {
 
 typedef struct s_img{
     void    *img_ptr;
-	int		*data;
-	int    	width;
-    int     height;
+    int    	img_width;
+    int     img_height;
+}           t_img;
 
+typedef struct s_img_pixel{
+    void    *img_ptr;
+	int		*data;
 	// not needed to understand
 	int		size_l;
 	int		bpp;
 	int		endian;
 
-}        t_img;
+}        t_img_pixel;
 
 typedef struct s_mlx{
-    void    *mlx_ptr;
+    void    *mlx;
     void    *win;
     t_img   img;
+	t_img_pixel img_pix;
 }              t_mlx;
 
 void    param_init(t_param *param)
@@ -56,10 +60,10 @@ void    param_init(t_param *param)
     param->str[2] = '\0';
 }
 
-void    ft_mlx_init(t_mlx *mlx)
+void    ft_mlx_init(t_mlx *_mlx)
 {
-    mlx->mlx_ptr = mlx_init();
-    mlx->win = mlx_new_window(mlx->mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
+    _mlx->mlx = mlx_init();
+    _mlx->win = mlx_new_window(_mlx->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
 }
 
 int     key_press(int keycode, t_param *param)
@@ -80,7 +84,7 @@ void    ft_mlx_img_add(t_mlx *mlx)
 {
 	int	img_width;
 	int	img_height;
-    mlx->img.img_ptr = mlx_xpm_file_to_image(mlx->mlx_ptr, "textures/wall_n.xpm", &mlx->img.width, &mlx->img.height);
+    mlx->img.img_ptr = mlx_xpm_file_to_image(mlx->mlx, "textures/wall_n.xpm", &mlx->img.img_width, &mlx->img.img_height);
 }
 
 void	ft_mlx_pixel_add(t_mlx *mlx)
@@ -88,22 +92,22 @@ void	ft_mlx_pixel_add(t_mlx *mlx)
 	int count_w;
 	int count_h;
 
-	mlx->img.img_ptr = mlx_xpm_file_to_image(mlx->mlx_ptr, "/textures/wall_e.xpm", &mlx->img.width, &mlx->img.height);
-	mlx->img.data = (int *)mlx_get_data_addr(mlx->img.img_ptr, &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+	mlx->img_pix.img_ptr = mlx_new_image(mlx->img_pix.img_ptr, IMG_PIXEL_WIDTH, IMG_PIXEL_HEIGHT);
+	mlx->img_pix.data = (int *)mlx_get_data_addr(mlx->img_pix.img_ptr, &mlx->img_pix.bpp, &mlx->img_pix.size_l, &mlx->img_pix.endian);
 
 	count_h = -1;
-	while (++count_h < mlx->img.height)
+	while (++count_h < IMG_PIXEL_HEIGHT)
 	{
 		count_w = -1;
-		while (++count_w < mlx->img.width)
+		while (++count_w < IMG_PIXEL_WIDTH)
 		{
 			if (count_w % 2)
-				mlx->img.data[count_h * mlx->img.width + count_w] = 0xFFFFFF;
+				mlx->img_pix.data[count_h * IMG_PIXEL_WIDTH + count_w] = 0xFFFFFF;
 			else
-				mlx->img.data[count_h * mlx->img.height + count_w] = 0xFF0000;
+				mlx->img_pix.data[count_h * IMG_PIXEL_WIDTH + count_w] = 0xFF0000;
 		}
 	}
-	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, mlx->img.img_ptr, 50, 50);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_pix.img_ptr, 0, 0);
 }
 
 
@@ -127,8 +131,10 @@ int main(void)
     param_init(&param);
     ft_mlx_init(&mlx);
 	using_print();
+    // ft_mlx_img_add(&mlx);
 	ft_mlx_pixel_add(&mlx);
     mlx_hook(mlx.win, X_EVENT_KEY_PRESS, 0, &key_press, &param);
-    // mlx_put_image_to_window(mlx.mlx_ptr, mlx.win, mlx.img.img_ptr, 0, 0);
-    mlx_loop(mlx.mlx_ptr);
+    // mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img_ptr, 50, 50);
+    mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img_pix.img_ptr, 0, 0);
+    mlx_loop(mlx.mlx);
 }
